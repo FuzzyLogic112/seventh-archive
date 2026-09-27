@@ -1,15 +1,22 @@
 {
   "name": "seventh-archive",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "An original Chinese point-and-click escape room, built without runtime dependencies.",
+  "description": "Third-person 3D escape room with character movement, clue collection, light horror and local saves.",
   "license": "MIT",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "node scripts/serve.mjs",
     "start": "node scripts/serve.mjs",
     "test": "node --test tests/*.test.cjs",
     "check": "node scripts/check.mjs",
-    "publish:github": "node scripts/publish-github.mjs"
+    "publish:github": "node scripts/publish-github.mjs",
+    "build": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "three": "0.186.1"
   }
 }

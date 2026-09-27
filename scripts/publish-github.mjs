@@ -13,11 +13,12 @@ const sleep = ms => new Promise(done => setTimeout(done, ms));
 // working directory recursively, credentials, local saves, or Git metadata.
 export const FILES = [
   '.github/workflows/pages.yml', '.gitignore', 'LICENSE', 'ASSETS.md',
-  'README.md', 'package.json', 'publish-windows.cmd',
+  'README.md', 'package.json', 'package-lock.json', 'publish-windows.cmd',
   'dist/.nojekyll', 'dist/index.html', 'dist/styles.css', 'dist/engine.js',
-  'dist/app.js', 'dist/assets/archive-room.webp',
+  'dist/app.js', 'dist/navigation.js', 'dist/room.bundle.js', 'dist/vendor/THREE-LICENSE.txt', 'dist/assets/archive-room.webp',
+  'src/room.js', 'src/software-renderer.js', 'scripts/build.mjs',
   'scripts/serve.mjs', 'scripts/check.mjs', 'scripts/publish-github.mjs',
-  'tests/engine.test.cjs', 'tests/publisher.test.cjs',
+  'tests/engine.test.cjs', 'tests/publisher.test.cjs', 'tests/navigation.test.cjs',
   'docs/DEPLOY.md', 'docs/DEPLOY-WINDOWS.md', 'docs/QA.md', 'docs/preview.jpg',
 ];
 

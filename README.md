@@ -1,81 +1,90 @@
-# 第七号档案 · The Seventh Archive
+# 第七号档案 · The Seventh Archive 3D
 
-一封没有署名的邀请，一间午夜上锁的档案室。观察旧物，收集道具，找回第七份档案，带着它离开。
+一封没有署名的邀请，一间午夜上锁的档案室。控制调查员走进雨夜，寻找线索，带着第七份档案离开。
 
-中文点击式密室逃脱游戏，原生 HTML / CSS / JavaScript，无框架、无第三方运行依赖、无后端。源码采用 MIT 许可证，支持 GitHub Pages 静态部署。
+**[在线游玩：第七号档案 · 3D 雨夜密室](https://fuzzylogic112.github.io/seventh-archive/)**
 
-![游戏界面](docs/preview.jpg)
+![3D 游戏画面](docs/preview.jpg)
 
-## 立即游玩
+## 现在是可以走动的 3D 密室
 
-**[在线试玩：第七号档案 · 午夜密室](https://fuzzylogic112.github.io/seventh-archive/)**
+- 第三人称人物探索，带行走动画、跟随镜头、手电筒和家具碰撞。
+- 必须走近物件才能调查；收集钥匙、紫外线手电和保险丝，完成五道连贯机关。
+- 抽屉、柜门和出口随解谜进度打开，供电后房间和密码锁发生变化。
+- 轻度恐怖：敲门声、灯光渐暗、短暂的人影；无血腥和追杀，可随时关闭。
+- 电脑键盘 / 鼠标操作，手机虚拟摇杆与拖动转向。
+- 线索手记、三级提示、自动存档。兼容原版谜题存档，额外保存人物位置与偏好。
+- Three.js 与场景一起打包到本站，不请求海外 CDN、在线字体、模型或音效接口。
+- 支持图形加速时使用 WebGL 2；不可用时自动使用软件 3D 渲染，仍可移动和解谜。
+- 雨声、脚步和机关音由 Web Audio 合成，默认静音，由玩家主动开启。
 
-用电脑或手机浏览器直接打开即可，无需注册。游戏进度自动保存在当前浏览器。
+这是单章节、固定谜题的完整可玩版本。无需账号或服务器，存档保存在当前浏览器；没有多人联机、云存档或在线排行榜。
 
-也可以下载源码包并解压，双击 `dist/index.html` 即可开始。无需安装 Node.js，也无需启动服务器。
+## 操作
 
-若希望稳定保存进度，建议使用下面的本地 HTTP 服务或已部署的网站。不同浏览器对 `file://` 页面存储的处理有所不同。
+| 操作 | 电脑 | 手机 |
+| --- | --- | --- |
+| 移动人物 | WASD / 方向键，或左下角方向按钮 | 拖动左下角摇杆 |
+| 转动镜头 | 拖动场景；Q / R 也可转向 | 在场景空白处拖动 |
+| 调查附近物件 | E / 点击下方调查按钮 | 点调查按钮 |
+| 选择道具 | 点击下方物品栏 | 点物品栏 |
+| 快走 | Shift + 移动 | — |
+| 开关手电 | F / 顶部手电按钮 | 顶部手电按钮 |
+| 线索手记 | J / 右上方手记按钮 | 手记按钮 |
+| 重置视角 | V / 小地图右下角按钮 | 设置中可回到入口 |
+| 关闭窗口 | Esc / 关闭按钮 | 关闭按钮 |
+
+右上角的设置可以关闭恐怖效果、切换画质、隐藏调查标记，或保留线索回到入口。设备开启“减少动态效果”时，首次进入默认关闭恐怖效果。
+
+## 本地运行
+
+直接打开 `dist/index.html` 即可运行已打包的版本。若希望稳定保存进度，建议使用 HTTP 服务；不同浏览器对 `file://` 存储的支持不同。
+
+安装 Node.js 22+ 后：
 
 ```bash
 npm start
 ```
 
-浏览器访问 `http://localhost:4173`。运行开发服务和测试需要 Node.js 22 或以上，无需 `npm install`。
+打开 `http://localhost:4173`。只运行已经打包的游戏，无需安装 npm 依赖。
 
-## 玩法
-
-- 七个可调查物件，五道相互关联的机关，一条完整逃脱流程。
-- 收集钥匙、紫外线手电、保险丝，在对应位置使用。
-- 线索自动进入手记，三级提示按需展开，重复查看不重复计数。
-- 自动保存当前浏览器的进度；页面隐藏时暂停计时，没有失败倒计时。
-- 可开关环境雨声，由浏览器 Web Audio 实时生成，默认静音。
-- 适配电脑和手机；画面下方有物件名称，可替代点击小光点。
-- 键盘可用：Tab 导航、Enter 操作、Esc 关闭调查窗口。
-
-这是单章节、固定谜题的完整可玩版本。存档仅在当前浏览器中保存，不包含账号、云存档、多人联机或在线排行榜。
-
-## 发布到 GitHub Pages
-
-Windows 用户可双击项目根目录的 `publish-windows.cmd`，在自己的浏览器完成登录后，由发布工具创建公开仓库、上传源码并开启 Pages。具体说明见 [Windows 本机发布指南](docs/DEPLOY-WINDOWS.md)。不需要云浏览器。
-
-完整的新手步骤见 [部署指南](docs/DEPLOY.md)。
-
-1. 在 GitHub 新建公开仓库，例如 `seventh-archive`。
-2. 把项目文件提交到 `main` 分支，保留 `.github/workflows/pages.yml`。
-3. 打开仓库 **Settings → Pages**，将 **Source** 设为 **GitHub Actions**。
-4. 打开 **Actions → Verify and deploy game to GitHub Pages → Run workflow**。
-5. 工作流先校验资源、执行测试，再发布 `dist/`。成功后的真实地址显示在该次运行的部署结果中。
-
-所有资源使用相对路径，项目仓库的子路径也能正确加载。工作流只上传 `dist/`，不会把源码文档和测试发布到游戏站点。
-
-GitHub Pages 的网络可达性由用户网络决定；游戏资源不依赖外部 CDN、在线字体或 API。需要使用其他静态主机时，直接上传整个 `dist/` 即可。
-
-## 开发与验证
+## 修改与构建
 
 ```bash
+npm ci
+npm run build
 npm run check
 npm test
-npm run dev
+npm start
 ```
+
+`src/room.js` 是可编辑的 Three.js 场景与人物控制源码；构建会把它和渲染库打包到 `dist/room.bundle.js`。修改 3D 源码后必须重新构建。
 
 | 文件 | 用途 |
 | --- | --- |
-| `dist/index.html` | 游戏主界面和语义结构 |
-| `dist/styles.css` | 主题、响应式布局和动效 |
-| `dist/engine.js` | 纯状态机、机关规则、存档校验和提示 |
-| `dist/app.js` | 场景交互、道具选择、手记、声音和计时 |
-| `dist/assets/archive-room.webp` | 随项目提供的档案室背景 |
-| `scripts/serve.mjs` | 无依赖本地开发服务 |
-| `scripts/check.mjs` | 资源引用和 JavaScript 语法检查 |
-| `tests/engine.test.cjs` | 完整通关、无效操作和存档恢复测试 |
-| `.github/workflows/pages.yml` | 自动验证与 GitHub Pages 发布 |
+| `src/room.js` | 3D 房间、人物、灯光、动画、镜头与输入 |
+| `src/software-renderer.js` | 无 WebGL 环境的透视投影与深度缓冲兼容渲染 |
+| `dist/navigation.js` | 房间布局、碰撞、距离调查、人物存档校验 |
+| `dist/engine.js` | 机关规则、道具、线索、提示与谜题存档 |
+| `dist/app.js` | 调查窗口、游戏界面、设置、声音与状态同步 |
+| `dist/index.html` / `dist/styles.css` | 界面、手机布局和摇杆 |
+| `scripts/build.mjs` | 使用锁定版本的 esbuild 打包 3D 场景 |
+| `tests/` | 谜题、移动碰撞、可达性和发布工具测试 |
 
-规则和界面分离。增加机关时，在 `engine.js` 中添加状态、动作、提示与依赖，再在 `app.js` 中添加调查窗口，并补充可达性测试。调整场景坐标时，修改 `targets` 中相对图片宽高的百分比；不要改变图片比例，否则光点会偏移。
+普通解谜存档继续使用 v1 格式；人物位置与显示偏好独立保存。新增剧情或修改机关依赖时，请同步更新存档校验和测试。
 
-源码包含解谜答案，因为规则完全运行在浏览器中。它适合休闲解谜和前端学习，不应被用作有奖金的防作弊竞赛。
+## GitHub Pages 发布
+
+本站已经部署在 [GitHub Pages](https://fuzzylogic112.github.io/seventh-archive/)。
+
+Fork 或另建仓库时，将 **Settings → Pages → Source** 设为 **GitHub Actions**。推送到 `main` 后，工作流会安装锁定的构建工具、构建 3D 场景、检查资源与规则，然后只发布 `dist/`。
+
+完整步骤见 [部署指南](docs/DEPLOY.md)。Windows 本机发布助手仍可用于创建一个新的公开仓库，说明见 [Windows 发布指南](docs/DEPLOY-WINDOWS.md)。
+
+游戏运行时所有资源都在同一站点。GitHub Pages 的网络可达性仍取决于玩家网络；同一份 `dist/` 也可放到其他静态主机。
 
 ## 素材与许可
 
-代码使用 [MIT License](LICENSE)。场景图片为本项目通过 AI 生成的原创场景素材；来源说明与项目内使用许可见 [ASSETS.md](ASSETS.md)。项目不包含第三方照片、字体、付费音频或 API 密钥。
+项目代码采用 [MIT License](LICENSE)。Three.js 的 MIT 许可随包保留于 [THREE-LICENSE.txt](dist/vendor/THREE-LICENSE.txt)。人物、家具、图案和声音由项目代码生成；原版背景图片的来源说明保留在 [ASSETS.md](ASSETS.md)。
 
-欢迎提交问题、修复和新章节。贡献前请运行 `npm run check` 和 `npm test`，并确认手机布局及完整逃脱流程没有中断。
+源码包含解谜答案，适合休闲游戏与前端学习。欢迎提交错误报告、操作体验反馈和新章节。

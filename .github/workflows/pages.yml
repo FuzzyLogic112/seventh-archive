@@ -19,6 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - name: Install pinned build tools
+        run: npm ci
+      - name: Build bundled 3D scene
+        run: npm run build
       - name: Check assets and syntax
         run: node scripts/check.mjs
       - name: Test puzzle rules and save recovery

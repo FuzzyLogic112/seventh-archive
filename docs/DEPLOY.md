@@ -9,9 +9,9 @@ Windows 用户可以使用新加入的 [本机发布助手](DEPLOY-WINDOWS.md)�
 1. 把下载的 ZIP 完整解压，不要直接在压缩包里点开网页。
 2. 进入 `seventh-archive/dist`。
 3. 用 Chrome、Edge、Firefox 或 Safari 打开 `index.html`。
-4. 点击“开始调查”，或直接点击房间中的光点。
+4. 点击“进入档案室”，用 WASD 移动，走近物件按 E 调查。
 
-如果希望使用本地网址，在装好 Node.js 22+ 后于项目根目录运行 `npm start`，访问 `http://localhost:4173`。项目没有需要安装的 npm 依赖。
+如果希望使用本地网址，在装好 Node.js 22+ 后于项目根目录运行 `npm start`，访问 `http://localhost:4173`。运行已经打包的游戏无需安装依赖。修改 3D 源码时，先执行 `npm ci`，再执行 `npm run build`。
 
 ## 二、创建公开仓库
 
@@ -58,7 +58,7 @@ git push -u origin main
 
 | 情况 | 处理方式 |
 | --- | --- |
-| 图片或样式没有加载 | 确认 `dist/assets/`、`styles.css`、`engine.js`、`app.js` 全部上传；保持目录结构。 |
+| 图片或样式没有加载 | 确认 `dist/assets/`、`styles.css`、`engine.js`、`navigation.js`、`room.bundle.js`、`app.js` 全部上传；保持目录结构。 |
 | Pages 提示未启用 | 回到 Settings → Pages，将 Source 切换到 GitHub Actions，重新运行工作流。 |
 | 找不到 Actions 工作流 | 检查 `.github/workflows/pages.yml` 是否位于仓库根目录下。 |
 | 打开页面出现 404 | 先确认发布任务成功，再使用部署结果返回的完整地址；项目仓库通常包含仓库名路径。 |
@@ -67,7 +67,7 @@ git push -u origin main
 
 ## 六、后续修改
 
-在电脑修改文件后，先执行 `npm run check` 与 `npm test`，再提交并推送。工作流通过后，新版本会自动发布。
+在电脑修改文件后，先执行 `npm run build`、`npm run check` 与 `npm test`，再提交并推送。工作流通过后，新版本会自动发布。
 
 若修改谜题或存档结构，请同步更新 `engine.js` 中的 `VERSION` 以及 `app.js` 中的存档键，避免旧存档进入不兼容状态。
 

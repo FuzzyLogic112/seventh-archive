@@ -2,49 +2,97 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101716">
-  <meta name="description" content="第七号档案：一款原创中文密室逃脱游戏。探索午夜档案室，收集道具，破解机关，找回被封存的真相。">
-  <title>第七号档案 · 午夜密室</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23101716'/%3E%3Cpath d='M10 6h12v20H10zM14 10h4v16M20 17h1' fill='none' stroke='%23c4ad7b' stroke-width='2'/%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101916">
+  <meta name="description" content="第七号档案：第三人称 3D 密室逃脱。控制调查员探索雨夜档案室，收集线索，破解机关。轻度恐怖，可随时关闭。">
+  <title>第七号档案 · 3D 雨夜密室</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23101716'/%3E%3Cpath d='M10 6h12v20H10zM14 10h4v16M20 17h1' fill='none' stroke='%23c4ad7b' stroke-width='2'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="./styles.css">
   <script src="./engine.js" defer></script>
+  <script src="./navigation.js" defer></script>
+  <script src="./room.bundle.js" defer></script>
   <script src="./app.js" defer></script>
 </head>
-<body>
-  <a class="skip-link" href="#play-area">跳到游戏</a>
-  <header class="topbar">
-    <a class="brand" href="./index.html" aria-label="第七号档案首页"><span class="brand-mark" aria-hidden="true">Ⅶ</span><span>第七号档案<small>THE SEVENTH ARCHIVE</small></span></a>
-    <span class="edition">一场关于遗忘的逃脱</span>
-    <div class="header-actions"><button class="icon-button" id="sound-button" aria-label="开启环境音" aria-pressed="false"></button><button class="icon-button" id="help-button" aria-label="玩法说明"></button><button class="text-button reset-button" id="reset-button">重新开始</button></div>
-  </header>
-
-  <main class="workspace" id="play-area">
-    <div class="chapter-heading"><div class="chapter-title"><span class="chapter-number">01</span><div><p class="eyebrow">THE LOCKED ROOM</p><h1>封存的午夜</h1></div></div><div class="session"><span id="save-status">进度保存在此浏览器</span><span class="time-label" id="timer" aria-label="探索用时 0 分 0 秒">00:00</span></div></div>
-    <div class="game-layout">
-      <section class="play-column" aria-label="档案室探索区">
-        <div class="room" id="room">
-          <img class="room-image" src="./assets/archive-room.webp" alt="午夜档案室：旧挂钟、星图、书桌、书柜、保险柜、配电箱和紧锁的出口。" width="1672" height="941" fetchpriority="high">
-          <div class="room-shade"></div>
-          <div class="room-topline"><span class="location-tag">档案室 / ARCHIVE ROOM</span><span class="room-weather">雨夜 · 23:47</span></div>
-          <div class="hotspots" id="hotspots"></div>
-          <div class="room-bottomline"><button class="scene-toggle" id="hotspot-toggle" aria-pressed="true"></button><span id="scene-guidance">点击光点，检查房间里的物件</span></div>
-          <div class="escape-overlay" id="escape-overlay" hidden><span class="eyebrow">THE DOOR IS OPEN</span><h2>天快亮了。</h2><p>而那些被遗忘的名字，终于等到了归途。</p><button class="primary-button" id="result-button">查看逃脱记录</button></div>
-        </div>
-        <div class="object-shortcuts" id="object-shortcuts" aria-label="选择调查对象"></div>
-        <section class="inventory-panel" aria-labelledby="inventory-title"><div class="inventory-heading"><h2 id="inventory-title">随身物品 <span id="inventory-count">0 / 3</span></h2><p id="inventory-instruction">找到的物品，会收在这里。</p></div><div class="inventory" id="inventory"></div></section>
+<body class="intro-open">
+  <main id="play-area" class="game-shell" aria-label="第三人称 3D 档案室">
+    <canvas id="world" tabindex="0" aria-label="3D 档案室。WASD 或方向键移动人物，拖动查看四周，E 调查近处物件。"></canvas>
+    <div class="cinema-vignette" aria-hidden="true"></div>
+    <div class="film-grain" aria-hidden="true"></div>
+    <div id="world-markers" class="world-markers"></div>
+    <div class="game-hud" id="game-hud">
+      <header class="topbar">
+        <a class="brand" href="./index.html" aria-label="第七号档案首页"><span class="brand-mark">Ⅶ</span><span>第七号档案<small>THE SEVENTH ARCHIVE</small></span></a>
+        <div class="edition"><span class="live-dot"></span> 3D EXPLORATION <span class="edition-line"></span> 雨夜 · 23:47</div>
+        <nav class="header-actions" aria-label="游戏工具">
+          <button class="icon-button" id="flashlight-button" aria-label="关闭手电筒" aria-pressed="true" title="手电筒 F"></button>
+          <button class="icon-button" id="sound-button" aria-label="开启环境音" aria-pressed="false" title="环境音"></button>
+          <button class="icon-button" id="help-button" aria-label="操作说明" title="操作说明"></button>
+          <button class="icon-button" id="settings-button" aria-label="游戏设置" title="游戏设置">⚙</button>
+        </nav>
+      </header>
+      <section class="chapter-card" aria-label="章节">
+        <p class="eyebrow">CHAPTER 01 <span>—</span> THE LOCKED ROOM</p>
+        <h1>封存的午夜</h1>
+        <p class="chapter-subtitle">这里的时间，停在了某个人离开的那一刻。</p>
       </section>
-      <aside class="journal-sidebar" aria-label="调查进度与线索">
-        <div class="progress-block"><div class="section-heading"><h2>逃脱进度</h2><span><b id="progress-number">0</b><span class="muted"> / 5</span></span></div><div class="progress-segments" id="progress-segments" role="progressbar" aria-label="机关完成数" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"></div><p id="objective">每一件旧物，都有未说完的话。</p></div>
-        <section class="story-block" id="story-block"><span class="eyebrow">一封未署名的邀请</span><p>你循着一封信来到旧档案馆。<br>钟声响过，身后的门忽然锁上。</p><blockquote>“如果你读到了这里，<br>请带走第七份档案。”</blockquote><button class="primary-button" id="start-button">开始调查 <span aria-hidden="true">↗</span></button><span class="duration">约 15–25 分钟 · 无倒计时</span></section>
-        <section class="notes-block" id="notes-block" hidden><div class="section-heading"><h2>线索手记</h2><span class="notes-count" id="notes-count">00</span></div><div id="recent-notes" class="recent-notes"></div><button class="text-button journal-link" id="journal-button">翻开完整手记 <span aria-hidden="true">↗</span></button></section>
-        <div class="hint-block"><span class="hint-symbol" aria-hidden="true">✧</span><div><h3>换一个角度想想</h3><p>卡住了？线索就在细节里。</p></div><button class="secondary-button" id="hint-button">获取提示 <span id="hint-count">0</span></button></div>
+      <aside class="objective-panel">
+        <div class="panel-label"><span>调查目标</span><span><b id="progress-number">0</b> / 5</span></div>
+        <div id="progress-segments" class="progress-segments" role="progressbar" aria-label="机关完成进度" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"></div>
+        <p id="objective"></p>
+        <div class="investigation-actions">
+          <button id="journal-button"><span>调查手记</span><span id="clue-count">0</span></button>
+          <button id="hint-button"><span>寻求提示</span><span>↗</span></button>
+        </div>
+        <p class="save-line"><span id="save-status">自动保存</span><time id="timer">00:00</time></p>
       </aside>
+      <div class="field-caption"><span class="caption-rule"></span><span id="scene-guidance">慢一点。听听这间房间。</span></div>
+      <div class="control-deck">
+        <div class="walk-pad" aria-label="辅助移动按钮">
+          <button data-walk="forward" aria-label="向前移动" title="W 向前">W</button>
+          <button data-walk="left" aria-label="向左移动" title="A 向左">A</button>
+          <button data-walk="back" aria-label="向后移动" title="S 向后">S</button>
+          <button data-walk="right" aria-label="向右移动" title="D 向右">D</button>
+        </div>
+        <div class="control-copy"><span>移动人物</span><small>拖动视角 · Shift 快走<br>Q / R 转向 · V 重置视角</small></div>
+      </div>
+      <div class="joystick" id="joystick" aria-label="拖动摇杆移动人物"><span class="joystick-cross"></span><span id="joystick-stick"></span></div>
+      <section class="interaction-dock" aria-label="附近物件与道具">
+        <button class="interaction-button" id="interact-button" disabled><kbd>E</kbd><span><strong id="nearby-label">探索档案室</strong><small id="nearby-copy">走近物件，即可调查</small></span><span class="interact-arrow">↗</span></button>
+        <div class="inventory-heading"><span>随身物品 <span id="inventory-count">0 / 3</span></span><span id="inventory-instruction">走近，观察，收集。</span></div>
+        <div id="inventory" class="inventory"></div>
+      </section>
+      <aside class="room-map" aria-label="房间平面图">
+        <div class="map-label"><span>ARCHIVE / 07</span><span>N ↑</span></div>
+        <svg viewBox="0 0 140 110" role="img" aria-label="档案室地图，浅色圆点为人物位置">
+          <path class="map-wall" d="M5 5H135V105H5Z"/><path class="map-furniture" d="M54 48h32v16H54zM118 9h12v43h-12zM10 18h12v16H10zM10 59h10v22H10zM101 87h21v10h-21z"/>
+          <g id="map-markers"></g><g id="map-player"><circle r="3.3"/><path d="M-4 -4 0 -10 4 -4Z"/></g>
+        </svg>
+        <div class="map-footer"><span id="position-readout">X 0.0 / Z 3.8</span><button id="camera-reset" aria-label="重置视角" title="重置视角 V">⌖</button></div>
+      </aside>
+      <div class="exit-notice" id="escape-overlay" hidden><p class="eyebrow">CASE CLOSED</p><h2>天快亮了。</h2><button id="result-button" class="primary-button">查看逃脱记录 ↗</button></div>
     </div>
-    <footer class="game-footer"><span><span class="status-dot"></span>单人探索<span class="footer-divider">/</span>戴上耳机，走进雨夜</span><span>观察 · 联想 · 离开</span></footer>
+    <section class="intro" id="intro" aria-labelledby="intro-title">
+      <div class="intro-content">
+        <p class="eyebrow"><span class="live-dot"></span> A THIRD-PERSON MYSTERY</p>
+        <div class="case-number">CASE NO. 007 <span>失踪档案调查</span></div>
+        <h2 id="intro-title">第七号<br><em>档案</em><span class="title-period">。</span></h2>
+        <p class="intro-description">一封没有署名的邀请。<br>一间从里面锁住的档案室。<br>雨停之前，找回被抹去的名字。</p>
+        <div class="intro-meta"><span>第三人称 3D 探索</span><span>五道机关</span><span>自动存档</span></div>
+        <button class="primary-button start-button" id="start-button" disabled>进入档案室 <span>↗</span></button>
+        <p class="loading-status" id="loading-status" role="status">正在点亮档案室……</p>
+        <div class="intro-options">
+          <label><input type="checkbox" id="intro-horror" checked>轻度恐怖氛围</label>
+          <label><input type="checkbox" id="intro-sound">开启环境音</label>
+        </div>
+        <p class="intro-note">含灯光渐暗、敲门声与短暂人影，可随时关闭。</p>
+        <p class="webgl-fallback" id="webgl-fallback" hidden>需要支持 WebGL 2 的浏览器。可尝试更新 Edge / Chrome，或开启“使用图形加速”。线索存档仍保留。</p>
+      </div>
+      <div class="intro-bottom"><span>THE SEVENTH ARCHIVE</span><span>WASD 移动 <i>·</i> 拖动转向 <i>·</i> E 调查</span></div>
+    </section>
   </main>
-  <dialog id="inspect-dialog" aria-labelledby="dialog-title"><div class="dialog-header"><span id="dialog-kicker" class="eyebrow">调查物件</span><button class="icon-button close-dialog" id="close-dialog" aria-label="关闭窗口"></button></div><div id="dialog-content"></div></dialog>
-  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
-  <noscript><div class="no-script">请启用 JavaScript，以进入档案室并解开机关。</div></noscript>
+  <dialog id="inspect-dialog" aria-labelledby="dialog-title"><div class="dialog-topline"><span id="dialog-kicker" class="eyebrow">调查物件</span><button class="icon-button" id="close-dialog" aria-label="关闭调查窗口"></button></div><div id="dialog-content"></div><div class="dialog-footer"><span>THE SEVENTH ARCHIVE</span><span>ESC 返回探索</span></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <span id="hint-count" hidden>0</span>
+  <noscript><div class="no-script">请启用 JavaScript，以进入 3D 档案室。</div></noscript>
 </body>
 </html>
