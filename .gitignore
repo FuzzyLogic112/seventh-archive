@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+.env
+.env.*
+!.env.example
+*.log
+.sites-runtime/
+.openai/
+artifacts/
+coverage/
+.publish-state.json
+PUBLISH-RESULT.txt
