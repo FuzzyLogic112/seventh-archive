@@ -87,4 +87,7 @@ Fork 或另建仓库时，将 **Settings → Pages → Source** 设为 **GitHub 
 
 项目代码采用 [MIT License](LICENSE)。Three.js 的 MIT 许可随包保留于 [THREE-LICENSE.txt](dist/vendor/THREE-LICENSE.txt)。人物、家具、图案和声音由项目代码生成；原版背景图片的来源说明保留在 [ASSETS.md](ASSETS.md)。
 
+<img src="dist/assets/archive-room.webp" alt="原点击式版本的雨夜档案室背景图" width="100%">
+<sub>原点击式版本使用的档案室背景（AI 生成，3D 版已改为代码建模，不再使用此图）</sub>
+
 源码包含解谜答案，适合休闲游戏与前端学习。欢迎提交错误报告、操作体验反馈和新章节。
